@@ -46,6 +46,7 @@ app.command("/crosspost-message", async (par) => {
       `userdata_${par.body.user_id}.current_message_link`,
       messageLink,
     );
+    await db.set(`userdata_${par.body.user_id}.current_channel_id`, par.body.channel_id);
     // Call views.open with the built-in client
     const result = await app.client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
@@ -98,25 +99,27 @@ app.view("view_1", async ({ ack, body, view, client }) => {
   // Get the submitted data
   const data = body.view.state.values["5xIxx"];
   const channels = data["channels-to-send"].selected_channels;
-  console.log(data, channels);
+  const channel_id = await db.get(`userdata_${body.user.id}.current_channel_id`);
+  const messageLink = await db.get(`userdata_${body.user.id}.current_message_link`);
+  console.log(body);
 
-  // if (channels.length == 0) {
-  //   await client.chat.postMessage({
+  if (!channels || channels.length == 0) {
+    await client.chat.postMessage({
 
-  //     channel: body.channel_id,
-  //     text: "You didn't select any channels to send to. Please try again.",
-  //   });
-  //   return;
-  // }
+      channel: channel_id,
+      text: "You didn't select any channels to send to. Please try again.",
+    });
+    return;
+  }
 
-  // for (const channel of channels) {
-  //   await client.chat.postMessage({
-  //     channel: channel,
-  //     text: message,
-  //   });
-  // }
-  // await client.chat.postMessage({
-  //   channel: par.body.channel_id,
-  //   text: "Message sent to all channels!",
-  // });
+  for (const channel of channels) {
+    await client.chat.postMessage({
+      channel: channel,
+      text: messageLink,
+    });
+  }
+  await client.chat.postMessage({
+    channel: channel_id,
+    text: "Message sent to all channels!",
+  });
 });
