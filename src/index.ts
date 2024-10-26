@@ -98,7 +98,7 @@ app.view("view_1", async ({ ack, body, view, client }) => {
 
   // if (channels.length == 0) {
   //   await client.chat.postMessage({
-    
+
   //     channel: body.channel_id,
   //     text: "You didn't select any channels to send to. Please try again.",
   //   });
