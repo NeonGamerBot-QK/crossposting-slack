@@ -81,6 +81,7 @@ app.command("/crosspost-message", async (par) => {
         },
       },
     });
+    console.log(result);
   } catch (error) {
     console.error(error);
   }
