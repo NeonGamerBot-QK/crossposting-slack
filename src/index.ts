@@ -42,7 +42,10 @@ app.command("/crosspost-message", async (par) => {
   const messageLink = par.body.text.split(" ")[0];
   //validate channels
   try {
-    await db.set(`userdata_${par.body.user_id}.current_message_link`, messageLink);
+    await db.set(
+      `userdata_${par.body.user_id}.current_message_link`,
+      messageLink,
+    );
     // Call views.open with the built-in client
     const result = await app.client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
@@ -93,7 +96,7 @@ app.view("view_1", async ({ ack, body, view, client }) => {
   // Acknowledge the view_submission event
   await ack();
   // Get the submitted data
-  const data = body.view.state.values['5xIxx'];
+  const data = body.view.state.values["5xIxx"];
   const channels = data["channels-to-send"].selected_channels;
   console.log(data, channels);
 
