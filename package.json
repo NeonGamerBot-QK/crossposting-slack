@@ -6,6 +6,7 @@
   "dependencies": {
     "@slack/bolt": "^4.0.0",
     "dotenv": "^16.4.5",
+    "quick.db": "^9.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
