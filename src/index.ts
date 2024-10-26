@@ -10,14 +10,10 @@ app.start(process.env.PORT || process.env.SERVER_PORT || 3000).then(() => {
 });
 //@ts-ignore
 // app.event("message", (message) => {
-  // console.debug("#message");
+// console.debug("#message");
 // });
 
 // TODO: commands
-app.command("/crossposting-optout", (par) => {
+app.command("/crossposting-optout", (par) => {});
 
-})
-
-app.command("/crosspost-message", (par) => {
-
-})
+app.command("/crosspost-message", (par) => {});
