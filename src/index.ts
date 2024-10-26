@@ -92,25 +92,27 @@ app.view("view_1", async ({ ack, body, view, client }) => {
   await ack();
   // Get the submitted data
   const data = body.view.state.values;
-  console.log(data);
   const channels = data.channels;
   const message = data.message;
-  if (channels.length == 0) {
-    await client.chat.postMessage({
-      channel: par.body.channel_id,
-      text: "You didn't select any channels to send to. Please try again.",
-    });
-    return;
-  }
+  console.log(data, channels, message);
 
-  for (const channel of channels) {
-    await client.chat.postMessage({
-      channel: channel,
-      text: message,
-    });
-  }
-  await client.chat.postMessage({
-    channel: par.body.channel_id,
-    text: "Message sent to all channels!",
-  });
+  // if (channels.length == 0) {
+  //   await client.chat.postMessage({
+    
+  //     channel: body.channel_id,
+  //     text: "You didn't select any channels to send to. Please try again.",
+  //   });
+  //   return;
+  // }
+
+  // for (const channel of channels) {
+  //   await client.chat.postMessage({
+  //     channel: channel,
+  //     text: message,
+  //   });
+  // }
+  // await client.chat.postMessage({
+  //   channel: par.body.channel_id,
+  //   text: "Message sent to all channels!",
+  // });
 });
