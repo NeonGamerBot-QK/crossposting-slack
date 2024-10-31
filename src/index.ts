@@ -6,7 +6,12 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN,
 });
-
+const admins = ["U07L45W79E1"]
+const fh_admins = ["U054VC2KM9P", "U075RTSLDQ8", "U078J6H1XL3", "U01MPHKFZ7S", "UDK5M9Y13", "U044P84SGLD", "U05F4B48GBF", "U07346379NY", "U06EMBJH71S", "U04QD71QWS0", "U06QK6AG3RD", "U05468GUS7J", "U060YRK2734", "U04FATFRE6T"]
+const overrides = [
+  ...admins,
+  ...fh_admins
+]
 app.start(process.env.PORT || process.env.SERVER_PORT || 3000).then(() => {
   console.log("⚡️ Bolt app is running!");
 });
@@ -36,6 +41,15 @@ app.command("/crossposting-deletemydata", async (par) => {
     "Deleting your data...\n> note: this deletes all refrences of your user id. Including if you have been opted out.",
   );
 });
+app.command('/crossposting-block-my-channel', async (par) => {
+  await par.ack();
+  if (!overrides.includes(par.body.user_id)) {
+    await par.say("You are not the channel manager for this channel.  OR fire dept")
+    return;
+  }
+  await db.set('blocked_channel_' + par.body.channel_id, true)
+  await par.say(":yay: Channel blocked")
+})
 app.command("/crosspost-message", async (par) => {
   await par.ack();
   // get message link
@@ -68,7 +82,7 @@ app.command("/crosspost-message", async (par) => {
           {
             type: "input",
             element: {
-              type: "multi_channels_select",
+              type: "multi_groups_select",
               placeholder: {
                 type: "plain_text",
                 text: "Select Channels",
@@ -117,8 +131,12 @@ app.view("view_1", async ({ ack, body, view, client }) => {
     });
     return;
   }
-
+  let blocked_channels = [];
   for (const channel of channels) {
+    if (await db.get('blocked_channel_' + channel)) {
+      blocked_channels.push(channel)
+      continue;
+    }
     await client.chat.postMessage({
       channel: channel,
       text: messageLink,
@@ -126,6 +144,6 @@ app.view("view_1", async ({ ack, body, view, client }) => {
   }
   await client.chat.postMessage({
     channel: channel_id,
-    text: "Message sent to all channels!",
+    text: blocked_channels.length === 0 ? "Message sent to all channels!" : "Message sent to all channels except <#" + blocked_channels.join(">, <#") + ">"
   });
 });
