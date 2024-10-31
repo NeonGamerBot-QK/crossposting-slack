@@ -96,7 +96,7 @@ app.command("/crosspost-message", async (par) => {
           {
             type: "input",
             element: {
-              type: "multi_groups_select",
+              type: "multi_channels_select",
               placeholder: {
                 type: "plain_text",
                 text: "Select Channels",
@@ -162,7 +162,7 @@ app.view("view_1", async ({ ack, body, view, client }) => {
       blocked_channels.length === 0
         ? "Message sent to all channels!"
         : "Message sent to all channels except <#" +
-          blocked_channels.join(">, <#") +
-          ">",
+        blocked_channels.join(">, <#") +
+        ">",
   });
 });
