@@ -3,8 +3,7 @@ import { App } from "@slack/bolt";
 import { QuickDB } from "quick.db";
 
 export default function (app: App, db: QuickDB) {
-
-app.command("/crosspost-message", async (par) => {
+  app.command("/crosspost-message", async (par) => {
     await par.ack();
     // get message link
     const messageLink = par.body.text.split(" ")[0];
@@ -62,7 +61,7 @@ app.command("/crosspost-message", async (par) => {
       console.error(error);
     }
   });
-  
+
   // callback for modal
   app.view("view_1", async ({ ack, body, view, client }) => {
     // Acknowledge the view_submission event
@@ -77,7 +76,7 @@ app.command("/crosspost-message", async (par) => {
       `userdata_${body.user.id}.current_message_link`,
     );
     console.log(body);
-  
+
     if (!channels || channels.length == 0) {
       await client.chat.postMessage({
         channel: channel_id,
@@ -106,5 +105,4 @@ app.command("/crosspost-message", async (par) => {
             ">",
     });
   });
-  
 }
