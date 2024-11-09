@@ -4,21 +4,21 @@ import { QuickDB } from "quick.db";
 import { admins, fh_admins, overrides } from "../constants";
 
 export default function (app: App, db: QuickDB) {
-    app.command("/crossposting-optout", async (par) => {
-        await par.ack();
-        await db.set(`userdata_${par.body.user_id}.optout`, true);
-        await par.say(
-          "You have opted out of crossposting. You will no longer be able to use me. to opt back in please dm <@U07L45W79E1> or delete your data with /crossposting-deletemydata",
-        );
-      });
-      app.command("/crossposting-forget-i-exist", async (par) => {
-        await par.ack();
-        await db.delete("userdata_" + par.body.user_id);
-        await db.set(`userdata_${par.body.user_id}.optout`, true);
-        await par.say("Done, Now who are you again??");
-      });
+  app.command("/crossposting-optout", async (par) => {
+    await par.ack();
+    await db.set(`userdata_${par.body.user_id}.optout`, true);
+    await par.say(
+      "You have opted out of crossposting. You will no longer be able to use me. to opt back in please dm <@U07L45W79E1> or delete your data with /crossposting-deletemydata",
+    );
+  });
+  app.command("/crossposting-forget-i-exist", async (par) => {
+    await par.ack();
+    await db.delete("userdata_" + par.body.user_id);
+    await db.set(`userdata_${par.body.user_id}.optout`, true);
+    await par.say("Done, Now who are you again??");
+  });
 
-app.command("/crossposting-deletemydata", async (par) => {
+  app.command("/crossposting-deletemydata", async (par) => {
     await par.ack();
     await db.delete("userdata_" + par.body.user_id);
     par.say(
