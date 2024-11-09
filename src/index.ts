@@ -28,9 +28,6 @@ app.start(process.env.PORT || process.env.SERVER_PORT || 3000).then(() => {
   console.log("⚡️ Bolt app is running!");
 });
 //@ts-ignore
-// app.event("message", (message) => {
-// console.debug("#message");
-// });
 
 // TODO: commands
 app.command("/crossposting-optout", async (par) => {
