@@ -1,29 +1,13 @@
 import "dotenv/config";
 import { App } from "@slack/bolt";
 import { QuickDB } from "quick.db";
+import { admins, fh_admins, overrides } from "./constants";
 const db = new QuickDB();
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN,
 });
-const admins = ["U07L45W79E1"];
-const fh_admins = [
-  "U054VC2KM9P",
-  "U075RTSLDQ8",
-  "U078J6H1XL3",
-  "U01MPHKFZ7S",
-  "UDK5M9Y13",
-  "U044P84SGLD",
-  "U05F4B48GBF",
-  "U07346379NY",
-  "U06EMBJH71S",
-  "U04QD71QWS0",
-  "U06QK6AG3RD",
-  "U05468GUS7J",
-  "U060YRK2734",
-  "U04FATFRE6T",
-];
-const overrides = [...admins, ...fh_admins];
+
 app.start(process.env.PORT || process.env.SERVER_PORT || 3000).then(() => {
   console.log("⚡️ Bolt app is running!");
 });
