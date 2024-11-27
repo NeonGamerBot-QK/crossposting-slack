@@ -1,7 +1,7 @@
 // anything related to blocking/data deletions
 import { App } from "@slack/bolt";
 import { QuickDB } from "quick.db";
-
+import isChannelManager from "../is-channel-manager";
 export default function (app: App, db: QuickDB) {
   app.command("/crosspost-message", async (par) => {
     await par.ack();
