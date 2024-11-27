@@ -1,4 +1,4 @@
-import "dotenv/config"
+import "dotenv/config";
 export default async function getChannelManagers(channel: string) {
   const myHeaders = new Headers();
   myHeaders.append("Cookie", `d=${process.env.SLACK_USER_COOKIE}`);
@@ -7,7 +7,7 @@ export default async function getChannelManagers(channel: string) {
   formdata.append("token", process.env.SLACK_BROWSER_TOKEN!);
   formdata.append("entity_id", channel);
 
-  const requestOptions:any = {
+  const requestOptions: any = {
     method: "POST",
     headers: myHeaders,
     body: formdata,
@@ -20,7 +20,7 @@ export default async function getChannelManagers(channel: string) {
   );
 
   const json = await request.json();
-console.debug(json)
+  console.debug(json);
   if (!json.ok) return [];
   return json.role_assignments[0]?.users || [];
-};
+}
